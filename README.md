@@ -5,4 +5,4 @@ In general this workflow is intended to be a convenient way to work though large
 
 Downstream analysis such as statistics etc. are included in the analysis directory.
 
-This Page is under construction and a proper dokumentation will be added in the near future (until the end of 2021).
+This Page is under construction and a proper documentation will be added in the near future (until the end of 2021).
