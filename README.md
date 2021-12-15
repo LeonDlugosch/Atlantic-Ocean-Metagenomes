@@ -31,7 +31,13 @@ java -jar timmomatic.jar PE \
 ```
 and subsequently assembled using [metaSPAdes](https://cab.spbu.ru/software/meta-spades/) (HPC).
 ```
-python spades.py -1 ./01_QC/Paired/ANT28_179_R1.fastq -2 ./01_QC/Paired/ANT28_179_R2.fastq --meta --memory 243 -k 11,33,55 -o ./tmp -t 16
+python spades.py -1 ./01_QC/Paired/ANT28_179_R1.fastq \
+                 -2 ./01_QC/Paired/ANT28_179_R2.fastq \
+                 --meta \
+                 --memory 243 \
+                 -k 11,33,55 \
+                 -o ./tmp \
+                 -t 16
 ```
 
 ## Data availability
