@@ -94,7 +94,7 @@ GroupDistance = function(clust = NULL, d = NULL, k = NA, d.method = "bray"){
   krusk = kruskal.test(plot.dist$dist ~ plot.dist$Group)
   
   boxplot(plot.dist$dist ~ plot.dist$Group, ylab = ylab, axes = F, xlab = "",
-          ylim = ylim, main = paste("Kruskal-Wallis chi²: ", round(krusk$statistic, 2), "\np-value: ", ifelse(krusk$p.value > 0.001, round(krusk$p.value, 3), "< 0.001")))
+          ylim = ylim, main = paste("Kruskal-Wallis chiÂ²: ", round(krusk$statistic, 2), "\np-value: ", ifelse(krusk$p.value > 0.001, round(krusk$p.value, 3), "< 0.001")))
   axis(1, at = c(1,2), labels = c(paste("Within group\nn = ", table(plot.dist$Group)[1], sep = ""), paste("Outside group\nn = ", table(plot.dist$Group)[2], sep = "")))
   axis(2, las = 2)
   return(plot.dist)
@@ -230,10 +230,10 @@ t.AOM = SummarizeDataset(data.red[,18:39], paste(data.red$Domain, data.red$Phylu
 #################################################################################################################
 #                                       Cluster analysis/validation & NMDS                                      #
 #################################################################################################################
-tax.nmds = metaMDS(t(t.AOM), distance = "bray", k=2, max = 999, center = T)
+tax.nmds = metaMDS(t(t.AOM), distance = "bray", k = 2, try = 999, center = T)
 tax.nmds$stress
 
-KO.nmds = metaMDS(t(f.AOM), distance = "bray", k = 2, max = 999, center = T)
+KO.nmds = metaMDS(t(f.AOM), distance = "bray", k = 2, try = 999, center = T)
 KO.nmds$stress
 
 nr.nmds = metaMDS(t(data.red[,18:39]), distance = "bray", k = 2, try = 999, center = T)
@@ -450,7 +450,7 @@ for(i in 1:2){
   mod = lm(NR[,i+1] ~ poly(NR[,1], 5, raw = T))
   s.mod = summary(mod) 
   r = s.mod$adj.r.squared
-  if(i == 1){plot(y = NR[,i+1], x = NR[,1], ylab = "Normalized richness & diversity", xlab = "Latitude [°N]", type = "n", main = "", las = 1)}
+  if(i == 1){plot(y = NR[,i+1], x = NR[,1], ylab = "Normalized richness & diversity", xlab = "Latitude [Â°N]", type = "n", main = "", las = 1)}
   fit.mod = as.data.frame(predict(mod, interval = "conf", level = .95))
   fit.mod$f = NR[,1]
   fit.mod = fit.mod[order(fit.mod$f),]
@@ -471,7 +471,7 @@ for(i in 1:2){
   mod = lm(NR[,i+1] ~ poly(NR[,1], 5, raw = T))
   s.mod = summary(mod) 
   r = s.mod$adj.r.squared
-  if(i == 1){plot(y = NR[,i+1], x = NR[,1], ylab = "", xlab = "Temperatur [°C]", type = "n", main = "", las = 1)}
+  if(i == 1){plot(y = NR[,i+1], x = NR[,1], ylab = "", xlab = "Temperatur [Â°C]", type = "n", main = "", las = 1)}
   fit.mod = as.data.frame(predict(mod, interval = "conf", level = .95))
   fit.mod$f = NR[,1]
   fit.mod = fit.mod[order(fit.mod$f),]
@@ -622,7 +622,7 @@ par(mfrow = c(3,1))
 plot(0, 0, type = "n", axes = F, xlab = "", ylab = "")
 legend("center", legend = c("Genes", "KOs", "Taxon"), lty = 1, col = c("#64a252", "#394c7d", "#c9952f"), lwd = 2, horiz = T, bty = "n")
 PlotLm(y  = res$tax_dist, x = res$Temp_dist, l1.col = "#c9952f", d = 2, main = "",
-       ylab = "Bray-Curtis dissimilarity", xlab = "Temperature [°C]", lty = 1, 
+       ylab = "Bray-Curtis dissimilarity", xlab = "Temperature [Â°C]", lty = 1, 
        axes = F, xlim = c(0,28), ylim = c(0, 1),  cex = .8, mod.pos = "front",
        predict = F, pch = 16, col = "#c9952f88")
 PlotLm(y  = res$KO_dist, x = res$Temp_dist, l1.col = "#394c7d", d = 2, main = "",
