@@ -18,7 +18,7 @@ Fractionated samples were taken on the RV Polarstern cruise ANT28-4 and ANT28-5 
 
 ## Data availability
 
-[Illumina sequencing data](https://www.ebi.ac.uk/ena/browser/view/PRJEB34453)
+[Illumina sequencing data](https://www.ebi.ac.uk/ena/browser/view/PRJEB34453) </br>
 [Environmental data](https://doi.pangaea.de/10.1594/PANGAEA.906247)
 [Reference gene cathalogue, assemblies and predicted genes]()
 
