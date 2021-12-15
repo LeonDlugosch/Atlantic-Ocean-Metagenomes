@@ -94,7 +94,7 @@ GroupDistance = function(clust = NULL, d = NULL, k = NA, d.method = "bray"){
   krusk = kruskal.test(plot.dist$dist ~ plot.dist$Group)
   
   boxplot(plot.dist$dist ~ plot.dist$Group, ylab = ylab, axes = F, xlab = "",
-          ylim = ylim, main = paste("Kruskal-Wallis chi²: ", round(krusk$statistic, 2), "\np-value: ", ifelse(krusk$p.value > 0.001, round(krusk$p.value, 3), "< 0.001")))
+          ylim = ylim, main = paste("Kruskal-Wallis chiÂ²: ", round(krusk$statistic, 2), "\np-value: ", ifelse(krusk$p.value > 0.001, round(krusk$p.value, 3), "< 0.001")))
   axis(1, at = c(1,2), labels = c(paste("Within group\nn = ", table(plot.dist$Group)[1], sep = ""), paste("Outside group\nn = ", table(plot.dist$Group)[2], sep = "")))
   axis(2, las = 2)
   return(plot.dist)
@@ -215,12 +215,13 @@ for (i in 1:nrow(r.coordinates)){
 Meta$Phosphate_annual_mean_20m = r.coordinates[,4]
 Meta$NP_ratio = Meta$Nitrate_annual_mean_20m/Meta$Phosphate_annual_mean_20m
 #################################################################################################################
-#                           AOM data & generation of taxonomic and functional prfiles                           #
+#                           AOM data & generation of taxonomic and functional profiles                          #
 #################################################################################################################
 setwd("")
 setwd("F:/MG_Analysis_v2/Data/AOM_Mapped_Datasets")
 AOM = read.csv2(file = "AOM_mapped_counts_v3.csv", header = T, stringsAsFactors = F)
 AOM[,18:39] = cpm(data = AOM[,18:39], gene_length = AOM$Gene_Length)
+colSums(AOM[,18:39])
 data.red = as.data.frame(AOM[which(!is.na(AOM$Domain) & !is.na(AOM$Knr)),])
 names(data.red)[18:39] = Meta$Station 
 f.AOM = SummarizeDataset(data.red[,18:39], data.red$Knr)
@@ -229,13 +230,13 @@ t.AOM = SummarizeDataset(data.red[,18:39], paste(data.red$Domain, data.red$Phylu
 #################################################################################################################
 #                                       Cluster analysis/validation & NMDS                                      #
 #################################################################################################################
-tax.nmds = metaMDS(t(t.AOM), distance = "bray", k=2, trymax = 999, center=T)
+tax.nmds = metaMDS(t(t.AOM), distance = "bray", k=2, max = 999, center = T)
 tax.nmds$stress
 
-KO.nmds = metaMDS(t(f.AOM), distance = "bray", k = 2, trymax = 999, center=T)
+KO.nmds = metaMDS(t(f.AOM), distance = "bray", k = 2, max = 999, center = T)
 KO.nmds$stress
 
-nr.nmds = metaMDS(t(data.red[,18:39]), distance = "bray", k=2, try = 999, center=T)
+nr.nmds = metaMDS(t(data.red[,18:39]), distance = "bray", k = 2, try = 999, center = T)
 nr.nmds$stress
 
 nr.clust = hclust(d = vegdist(t(data.red[,18:39]), method = "bray"), method = "ward.D2")
@@ -265,13 +266,16 @@ GroupDistance(clust = nr.clust, d = data.red[,18:39], k = 5, d.method = "bray")
 plot(nr.clust, xlab = "", main = "Ward.D2 cluster dendrogram")
 ClosePlotDevice()
 
-
-
 Meta$NRcluster = cutree(nr.clust, k = 5)
 Meta$KOcluster = cutree(ko.clust, k = 3)
 Meta$TAXcluster = cutree(tax.clust, k = 2)
-### renaming of KO clusters (ordered 1 = cold, 2 =  yellow, 3 = warm)
-Meta$KOcluster = ifelse(Meta$KOcluster == 1, 2, ifelse(Meta$KOcluster == 2, 1, Meta$KOcluster))
+Meta[,c(1, 82:84)]
+
+# For consistency with geographic trends in the clustering analysis, clusters were renamed.
+# Taxonomic dataset: no change
+# Functional dataset: cluster 1 <-> 2
+# nr dataset: Cluster 1 -> 2, 2 -> 1, 3 -> 4, 4 -> 5, 5 -> 3
+
 
 write.csv2(data.frame(Station = Meta$Station, NRcluster = Meta$NRcluster, TAXcluster = Meta$TAXcluster, KOcluster = Meta$KOcluster),
            file = "AOM_cluster.csv", row.names = F)
@@ -280,8 +284,7 @@ write.csv2(data.frame(Station = Meta$Station, NRcluster = Meta$NRcluster, TAXclu
 #                                  Data interpolation and random forest models                                  #
 #################################################################################################################
 library(randomForest)
-RF_meta = Meta[,c(9,12,13,19,26,27,79,80,2,20,16)]
-#write.csv(file = "Supplement_EnvData_us_3.csv", x = RF_meta, row.names = F, quote = F)
+RF_meta = Meta[,c(12,13,19,26,79,80,2)]
 
 #### linear interpolation of missing Environmental data
 RF_meta$Chla_ugL = approx(RF_meta$Chla_ugL, n = 22)$y
@@ -289,37 +292,33 @@ RF_meta$POC = approx(RF_meta$POC, n = 22)$y
 RF_meta$Nitrate_annual_mean_20m = approx(RF_meta$Nitrate_annual_mean_20m, n = 22)$y
 RF_meta$Phosphate_annual_mean_20m = approx(RF_meta$Phosphate_annual_mean_20m, n = 22)$y
 
-#### Random forest dataset generation
-RF_meta$AbsLat = abs(RF_meta$Latitude)
-names(RF_meta) = c("Latitude", "Temperature", "Salinity", "Chlorophyll_a", "POC", "TPN", "Nitrate", "Phosphate", "Province", "BiomassProduction", "BacteriaCellcount", "Abs._Latitude")
+names(RF_meta) = c("Temperature", "Salinity", "Chlorophyll_a", "POC", "Nitrate", "Phosphate", "Province")
 RF_meta$Temperature = round(RF_meta$Temperature,3)
 RF_meta$Nitrate = round(RF_meta$Nitrate,3)
-write.csv(file = "Supplement_EnvData_us.csv", x = RF_meta, row.names = F, quote = F)
+
 ClosePlotDevice()
+#
 set.seed(1234)
 model.tax = randomForest(
   formula =  Meta$TAXcluster ~ .,
-  data = RF_meta[,c(2:5, 7:9)]
-)
+  data = RF_meta,
+  ntree = 500)
 varImpPlot(model.tax) 
-which.min(model.tax$mse)
-getTree(model.tax)
 
 model.ko = randomForest(
   formula =  Meta$KOcluster ~ .,
-  data = RF_meta[,c(2:5, 7:9)]
+  data = RF_meta,
+  ntree = 500
 )
 varImpPlot(model.ko) 
-which.min(model.ko$mse)
 
 model.nr = randomForest(
-  formula =  Meta$KOcluster ~ .,
-  data = RF_meta[,c(2:5, 7:9)]
+  formula = Meta$KOcluster ~ .,
+  data = RF_meta,
+  ntree = 500
 )
 varImpPlot(model.nr)
-which.min(model.nr$mse)
-importance(model.nr, )
-model.nr$importance
+
 randomF = data.frame(IncNodePurityTAX = model.tax$importance, IncNodePurityKO = model.ko$importance, IncNodePurityNR = model.nr$importance)
 names(randomF) = c("TAX", "KO", "NR")
 
@@ -327,8 +326,8 @@ names(randomF) = c("TAX", "KO", "NR")
 #                                               Figure 2 plot                                                   #
 #################################################################################################################
 ClosePlotDevice()
-Cairo(file = "Figure_2_Richness_Diversity_NMDS_woLegend.svg",
-      type = "svg",
+Cairo(file = "Figure_2_Richness_Diversity_NMDS_woLegend.pdf",
+      type = "pdf",
       width = 21,
       height = 12,
       bg = "white",
@@ -451,7 +450,7 @@ for(i in 1:2){
   mod = lm(NR[,i+1] ~ poly(NR[,1], 5, raw = T))
   s.mod = summary(mod) 
   r = s.mod$adj.r.squared
-  if(i == 1){plot(y = NR[,i+1], x = NR[,1], ylab = "Normalized richness & diversity", xlab = "Latitude [°N]", type = "n", main = "", las = 1)}
+  if(i == 1){plot(y = NR[,i+1], x = NR[,1], ylab = "Normalized richness & diversity", xlab = "Latitude [Â°N]", type = "n", main = "", las = 1)}
   fit.mod = as.data.frame(predict(mod, interval = "conf", level = .95))
   fit.mod$f = NR[,1]
   fit.mod = fit.mod[order(fit.mod$f),]
@@ -472,7 +471,7 @@ for(i in 1:2){
   mod = lm(NR[,i+1] ~ poly(NR[,1], 5, raw = T))
   s.mod = summary(mod) 
   r = s.mod$adj.r.squared
-  if(i == 1){plot(y = NR[,i+1], x = NR[,1], ylab = "", xlab = "Temperatur [°C]", type = "n", main = "", las = 1)}
+  if(i == 1){plot(y = NR[,i+1], x = NR[,1], ylab = "", xlab = "Temperatur [Â°C]", type = "n", main = "", las = 1)}
   fit.mod = as.data.frame(predict(mod, interval = "conf", level = .95))
   fit.mod$f = NR[,1]
   fit.mod = fit.mod[order(fit.mod$f),]
@@ -611,8 +610,8 @@ for(i in 1:ncol(t.df)){
 }
 res = unique(res)
 
-Cairo(file="Distance_Temperature_decay.svg", 
-      type="svg",
+Cairo(file="Distance_Temperature_decay.pdf", 
+      type="pdf",
       bg = "white",
       units="in", 
       width=7, 
@@ -623,7 +622,7 @@ par(mfrow = c(3,1))
 plot(0, 0, type = "n", axes = F, xlab = "", ylab = "")
 legend("center", legend = c("Genes", "KOs", "Taxon"), lty = 1, col = c("#64a252", "#394c7d", "#c9952f"), lwd = 2, horiz = T, bty = "n")
 PlotLm(y  = res$tax_dist, x = res$Temp_dist, l1.col = "#c9952f", d = 2, main = "",
-       ylab = "Bray-Curtis dissimilarity", xlab = "Temperature [°C]", lty = 1, 
+       ylab = "Bray-Curtis dissimilarity", xlab = "Temperature [Â°C]", lty = 1, 
        axes = F, xlim = c(0,28), ylim = c(0, 1),  cex = .8, mod.pos = "front",
        predict = F, pch = 16, col = "#c9952f88")
 PlotLm(y  = res$KO_dist, x = res$Temp_dist, l1.col = "#394c7d", d = 2, main = "",
