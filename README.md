@@ -17,8 +17,9 @@ Fractionated samples were taken on the RV Polarstern cruise ANT28-4 and ANT28-5 
 </p>
 
 ## Data availability
+Illumina seqeuncing data, assemblies, Atlantic Ocean Metagenome gene cathalogue (AOM-RGC), gene abundance tables and environmental data are available here:  
 
 [Illumina sequencing data](https://www.ebi.ac.uk/ena/browser/view/PRJEB34453) </br>
-[Environmental data](https://doi.pangaea.de/10.1594/PANGAEA.906247)
-[Reference gene cathalogue, assemblies and predicted genes]()
+[Environmental data](https://doi.pangaea.de/10.1594/PANGAEA.906247) </br>
+[Reference gene cathalogue, assemblies and predicted genes and AOM-RGC]() </br>
 
