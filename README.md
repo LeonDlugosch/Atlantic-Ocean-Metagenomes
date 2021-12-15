@@ -8,7 +8,7 @@ Downstream analysis such as statistics etc. are included in the analysis directo
 This Page is under construction and a proper documentation will be added in the near future (until the end of 2021).
 
 ## About the dataset
-Fractionated samples were taken on the RV Polarstern cruise ANT28-4 and ANT28-5 from March to May 2012 and metagenomes from 22 stations were generated using Illumina HiSeq2500 (Dlugosch et al. for details).
+Fractionated samples were taken on the RV Polarstern cruise ANT28-4 and ANT28-5 from March to May 2012 and metagenomes from 22 stations were generated using Illumina HiSeq2500 ([Dlugosch et al.]() for details).
 <p align="center">
   <img src="images/GitMap_web.png">
 </p>
