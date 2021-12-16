@@ -1,7 +1,7 @@
 # Atlantic Ocean Metagenomes Reference Gene Cathalogue
 ## Assembly and analysis pipeline
 
-The assembly pipeline is written for server-environment of the Institute for [Chemistry and Biology of the Marine Environment (ICBM)](https://uol.de/en/icbm) of the Carl-von-Ossietzky University Oldenburg, Germany as it uses Institute servers as well as the [HPC](https://uol.de/en/school5/sc/high-perfomance-computing/hpc-facilities) facility of the University of Oldenburg. Third party software may required to run the assembly.
+The assembly pipeline is written for server-environment of the Institute for [Chemistry and Biology of the Marine Environment (ICBM)](https://uol.de/en/icbm) of the Carl-von-Ossietzky University Oldenburg, Germany as it uses Institute servers as well as the [HPC](https://uol.de/en/school5/sc/high-perfomance-computing/hpc-facilities) facility of the University of Oldenburg. Third party software is required to run this assembly pipeline (see below).
 
 Downstream analysis such as statistics etc. are included in the analysis directory.
 
