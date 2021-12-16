@@ -14,7 +14,7 @@ Fractionated CTD samples from 20m depth were taken on the RV Polarstern cruise A
   <img src="images/GitMap_web.png">
   
 </p>
->Station from RV Polarstein cruises ANT28-4 and ANT28-5. Colour indicates average chlorophyll a concentration from 2012([AQUA MODIS](Test)).
+>Station from RV Polarstein cruises ANT28-4 and ANT28-5. Colour indicates average chlorophyll a concentration from 2012.
 </br>
 </br>
 In short, Illumina sequences were quality trimmed and residual adapter seqeunces were removed using [timmomatic](http://www.usadellab.org/cms/?page=trimmomatic)
