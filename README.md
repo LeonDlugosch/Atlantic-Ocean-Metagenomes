@@ -14,9 +14,12 @@ Fractionated CTD samples from 20m depth were taken on the RV Polarstern cruise A
   <img src="images/GitMap_web.png">
   
 </p>
+
 >Station from RV Polarstein cruises ANT28-4 and ANT28-5. Colour indicates average chlorophyll a concentration from 2012.
+
 </br>
 </br>
+
 In short, Illumina sequences were quality trimmed and residual adapter seqeunces were removed using [timmomatic](http://www.usadellab.org/cms/?page=trimmomatic)
 and subsequently assembled using [metaSPAdes](https://cab.spbu.ru/software/meta-spades/) (HPC). Genes from contigs ware predicted using [Prodigal](https://github.com/hyattpd/Prodigal), dereplicated and clustered at 95% sequence identity [using usearch](https://www.drive5.com/usearch/manual/cmd_cluster_fast.html). Resulting seqeunces were classified taxonomically using [Kaiju](https://kaiju.binf.ku.dk/) with the ProGenomes and Refseq databases (seqeunce taxonomy is integrated during [dataset generation](https://github.com/LeonDlugosch/Atlantic-Ocean-Metagenomes/blob/main/Analysis/00_AOM_Taxonomy_Function_CountTable.R)). Sequences were functionally classified using [GhostKOALA](https://www.kegg.jp/ghostkoala/) and the [CAZyme database](http://www.cazy.org/) ([diamond](https://github.com/bbuchfink/diamond) blastx --more-sensitive). High quality reads were mappted to the AOM-RGC to using [bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml). 
 
