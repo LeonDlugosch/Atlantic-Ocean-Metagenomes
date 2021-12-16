@@ -25,6 +25,10 @@ and subsequently assembled using [metaSPAdes](https://cab.spbu.ru/software/meta-
 
 See [here]() for a more detailed manual of the assembly-pipeline. 
 
+</br>
+
+For reproducability and transparency all analysis scripts are provided. If you choose run them, they should be executed in sequence from 01 to 06 as some data are generated that are used later during analysis. Custom functions are provided at the start of each script. Installation of additional packages in R might be required. Note that most figures were edited to comply with formatting standards.   
+
 ## Data availability
 Illumina seqeuncing data, assemblies, Atlantic Ocean Metagenome gene cathalogue (AOM-RGC), gene abundance tables and environmental data are available here:  
 
