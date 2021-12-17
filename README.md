@@ -32,5 +32,5 @@ Illumina seqeuncing data, assemblies, Atlantic Ocean Metagenome gene cathalogue 
 
 [Illumina sequencing data](https://www.ebi.ac.uk/ena/browser/view/PRJEB34453) </br>
 [Environmental data](https://doi.pangaea.de/10.1594/PANGAEA.906247) </br>
-[AOM-RGC, gene abundance tables, assemblies and predicted genes]() (not yet available)</br>
+[AOM-RGC, gene abundance tables, assemblies and predicted genes](https://service.icbm.uni-oldenburg.de/data/AOM_data/)
 
